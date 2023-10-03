@@ -1,0 +1,7 @@
+open-paren=(
+close-paren=)
+define=define
+sum=+
+mult=*
+identifier=[xyz][xyz0-9]* 
+number=[\+\-]\{0,1\}[0-9][0-9]*
