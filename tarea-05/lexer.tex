@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{float}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+
+\title{Top epigramas}
+\author{
+  Ramírez Ríos, Víctor Hugo\\
+  \texttt{a221205528@unison.mx}
+}
+\date{Septiembre 2023}
+
+
+\begin{document}
+
+\maketitle
+
+
+\begin{enumerate}
+    \item (read-char* input)
+    Lee una letra de la entrada dada.
+    \item (peek-char* input)
+    Lee una letra sin descartarla del flujo de la entrada.
+    \item (char-digit? ch)
+    Verifica si el caracter ch es un digito. Aquí hay un bug ya que se debe de verificar antes si el caracter es un objeto end of file antes de verificar si está dentro del rango de caracteres dado.
+    \item (char-delimeter? ch)
+    Verifica si el caracter es un objeto end of line o un espacio o un parentesis abierto o cerrado.
+    \item (define lex-path "<unknown>")
+    Define una dirección del lexer como <unknown> que representa el origen.
+    \item (define lex-line 0)
+    Define las lineas del lexer como 0.
+    \item (define lex-col 0)
+    Define las columnas del lexer como 0.
+    \item (struct token (type value line col))
+    Declara una estructura token la cual va almacenar el tipo, valor, número de lineas y columnas.
+    \item (define (token-open-paren))
+    Usando la estructura previamente definida declara el token para los parentesis abiertos.
+    \item (define (token-close-paren))
+    Lo mismo pero para parentesis cerrado.
+    \item (define (token-binop type))
+    Lo mismo pero ahora se ocupa mandar un tipo ya que que definimos diferentes tipos de operaciones binarias
+    \item (define (token-number value col))
+    Define el token para los números con un valor y una columna que se cambian por los default de la estructura.
+    \item (define (token-number/+ t))
+    Define el token number positivo. Aquí hay un bug, ya que el nombre de la variable token ignora el ámbito de token que se ha usado para actualizar los valores de los tokens.
+    \item (define (token-number/- t))
+    Define el token number negativo. Similar al positivo pero el valor del token es negativo. Mismo bug que la función anterior.
+    \item (define (token-identifier symbol col))
+    Define el token symbol
+    \item (define (token-define col))
+    Define el token define.
+    \item (define (lex-open-paren chars))
+    Define la función que actualiza los valores del token que representa el parentesis abierto. Lee todos los caracteres del stream. 
+    \item (define (lex-close-paren chars))
+    Lo mismo pero con los parentesis cerrados.
+    \item (define (lex-whitespace chars))
+    Actualiza los valores si hay un espacio en blanco o un salto de linea. Si es un espacio en blanco aumenta la columna. Si es un salto de linea aumenta la linea y empieza la columna desde 0.
+    \item (define (lex-sum-or-number chars))
+    Actualiza los valores si el char en numero o un signo positivo. Si es un signo positivo lo lee para representar la operación, aumenta la columna y lee los tokens que siguen. Si es un numero llama a otra función que lee todos los números que están consecutivamente hasta que se terminen.
+
+    \item (define (lex-negative-number chars))
+    Similar que el de los números positivos pero este lexer no tiene para representar la operacion de resta.
+
+    \item (define (lex-mult chars))
+    Actualiza los valores del token del símbolo de multiplicación, asegurándose que el símbolo este en una posición válida.
+
+    \item (define (lex-identifier-or-keyword chars))
+    Verifica si es un identificador o un keyword. En este caso el identificador sería cualquier variable que este en el regex de [xyz][xyz1-9]*, y la unica keyword aceptable es el define. Aquí hay un bug, ya que se lee los caracteres para que la función read pueda leerlos devulta, pero lo que queremos es reducirlo a solo los caracteres, para poder identificar cadenas como el define. Entonces, cambiamos el read por el display.
+
+    \item (define (lex-plain-number chars))
+    Verifica si los caracteres es un numero y actualiza los valores del token.
+
+    \item (define (lex-end-of-file chars))
+    Cierra el input port y vacía el flujo de datos.
+
+    \item (define (signal-lex-error message line col))
+    Mensaje de error que usa el conteo de lineas y columnas para identificar donde esta el error.
+
+    \item (define (lex chars))
+    Checa todos los posibles tipos de token que puede ser el caracter y llama a su respectiva funcion.
+
+    \item (define (lex-from-file path))
+    LLama al lexer desde un archivo.
+    
+    \item (define (lex-from-string str))
+    LLama al lexer desde un string.
+\end{enumerate}
+
+
+\end{document}

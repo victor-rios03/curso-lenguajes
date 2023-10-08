@@ -1,7 +1,4 @@
 #lang racket
-;numbers
-;token-identifier
-;
 ;35 y 188
 
 (define debug? #f)
@@ -51,17 +48,17 @@
 (define (token-number value col)
   (token 'number value lex-line col))
 
-(define (token-number/+ token)
+(define (token-number/+ t)
   (token 'number
-         (token-value token)
-         (token-line token)
-         (sub1 (token-col token))))
+         (token-value t)
+         (token-line t)
+         (sub1 (token-col t))))
 
-(define (token-number/- token)
+(define (token-number/- t)
   (token 'number
-         (- (token-value token))
-         (token-line token)
-         (sub1 (token-col token))))
+         (- (token-value t))
+         (token-line t)
+         (sub1 (token-col t))))
 
 (define (token-identifier symbol col)
   (token 'identifier symbol lex-line col))
@@ -133,7 +130,7 @@
 
 (define (lex-identifier-or-keyword chars)
   (define (read-alphanumeric strport is-identifier?)
-    (write (read-char* chars) strport)
+    (display (read-char* chars) strport)
     (set! lex-col (add1 lex-col))
     (let [(ch (peek-char* chars))]
       (cond [(char-delimiter? ch)
@@ -146,8 +143,8 @@
              (read-alphanumeric strport #f)])))
   (let* ([col lex-col]
          [strport (open-output-string)]
-         [is-identifier? (read-alphanumeric strport (char-varletter? )
-                                            (peek-char* chars))]
+         [is-identifier? (read-alphanumeric strport (char-varletter?
+                                            (peek-char* chars)))]
          [str (get-output-string strport)])
     (cond
       [is-identifier?
@@ -210,6 +207,7 @@
   (set! lex-line 1)
   (set! lex-col 0)
   (lex (open-input-string str)))
+
 (provide lex-from-file
          lex-from-string
          char-digit?)
