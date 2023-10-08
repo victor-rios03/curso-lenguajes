@@ -210,4 +210,4 @@
 
 (provide lex-from-file
          lex-from-string
-         char-digit?)
+         token)
