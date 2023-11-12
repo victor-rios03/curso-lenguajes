@@ -96,13 +96,16 @@
     [(empty? ls) (list n)]
     [(compare n (first ls)) (cons n ls)]
     [else (cons (first ls) (insert n (rest ls) compare))]))
-
 ;;; char-compare : char? char? -> bool
 (define (char-compare a b)
-  (char<=? a b))
+  (char<? a b))
 
-;(isort (list #\e #\d #\a #\b) char-compare)
+(isort (list #\e #\d #\a #\b) char-compare)
 
+
+
+
+;;;Problema 10
 ;;; quicksort : list? -> list
 (define (quicksort ls)
   (cond
@@ -136,8 +139,11 @@
     [else
      (define pivot (first ls))
      (append (quicksort-any (smallers-any ls pivot compare) compare)
-             (filter (lambda (x) (= x pivot)) ls) 
-             (quicksort-any (largers-any ls pivot compare) compare))]))
+             (filter (lambda (x) (equal? x pivot)) ls)
+             (quicksort-any (largers-any ls pivot compare) compare)
+             )]
+    ))
+
 
 (define (smallers-any ls pivot compare)
   (cond
@@ -150,13 +156,12 @@
   (cond
     [(empty? ls) null]
     [(compare (first ls) pivot) (largers-any (rest ls) pivot compare)]
+    [(equal? (first ls) pivot) (largers-any (rest ls) pivot compare)]
     [else
      (cons (first ls) (largers-any (rest ls) pivot compare))]))
 
-(define (comparison x y)
-  (> x y))
 
-;(quicksort-any '(1 2) comparison)
+(quicksort-any (list #\e #\d #\a #\b) char-compare)
 ;Problema 12---------------------------------
 
 ;(time (quicksort '(1 3 2 4 19 4 2 42 -42 451 412 32131 4103 4312 1323 41231 2323 342)))
@@ -196,16 +201,18 @@
 ;;; El error seria que el menos igual no toma en cuenta la repeticion del pivote en la lista
 (define (smallers-error l n)
   (cond
-    [(empty?) l '()]
+    [(empty? l) '()]
     [else (if (<= (first l) n)
               (cons (first l) (smallers-error (rest l) n))
               (smallers-error (rest l) n))]))
+
+
 ;Problema 18
 ;;; En los casos en los que m sea mayor que 0 o m y n sean mayor que 0
 
 ;Problema 19
 ;;; La funcion find-largest-divisor es una funcion recursiva estructural usada para encontrar el comun divisor mas largo entre dos numeros n y m.
-;;; Caso base: Si k es igual entonces la funcion devuelve 1.
+;;; Caso base: Si k es igal entonces la funcion devuelve 1.
 ;;; Si el cociente de ambos numeros es 0, entonces k es un comun divisor. Si esto es verdad devuleve k
 ;;; Si las condiciones no se cumple hace una llamada recursiva con k menos 1.
 ;;; La llamada en la funcion gcd-structural  con el minimo de n y m como el valor inicial de k, ya que el comun divisor no puede ser mayor que el menor de ambos numeros
@@ -231,20 +238,20 @@
 ;;; Problema 21
 
 ;;; Pequeños
-;(time (gcd-structural 100 99))
-;(time (gcd-generative 100 99))
+(time (gcd-structural 100 99))
+(time (gcd-generative 100 99))
 
-;(time (gcd-structural 104729 104728))
-;(time (gcd-generative 104729 104728))
-;;;Grandes
-;(time (gcd-structural 10523145 10523144))
-;(time (gcd-generative 10523145 10523144))
+;;; Medianos
+(time (gcd-structural 104729 104728))
+(time (gcd-generative 104729 104728))
+;;; Grandes
+(time (gcd-structural 10523145 10523144))
+(time (gcd-generative 10523145 10523144))
 
 ;;; Problema 22
 ;;; Si estas trabajando con entradas pequeñas y prefieres tener un código fácil de leer puede llegar a convenir usar el que es menos eficiente.
 
 ;;; Problema 23
-;;;
 
 (define (triangle side width color)
   (define w side)
@@ -261,16 +268,11 @@
     (send ctx set-pen prev-pen))
   (dc draw-it w h))
 
-
-
 (define (sierpinski side)
   (cond [(<= side 4) (triangle side 1 "red")]
         [else
          (define div (sierpinski (/ side 2)))
          (vc-append div (hc-append div div))]))
-
-
-(sierpinski 10000)
 
 (provide bundle
          explode)

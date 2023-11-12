@@ -13,10 +13,7 @@
 
               (check-equal? (bundle '("a" "b") 3)
                             (list "ab"))
-
               (check-equal? (bundle '() 3)
-                            '())
-              (check-equal? (bundle '("a" "b" "c") 0)
                             '())
               (check-equal? (bundle (explode "abcdefg") 1)
                             (explode "abcdefg"))

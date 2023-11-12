@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{float}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+
+\title{Tarea 06 de Lenguajes de Programación}
+\author{
+  Ramírez Ríos, Víctor Hugo\\
+  \texttt{a221205528@unison.mx}
+}
+\date{Noviembre 2023}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+    \item Problema 4
+Por como está definido bundle no es un buen uso. Ya que no hay un caso para cuando la n es cero en el implode o el bundle, esto se puede arreglar si en cualquiera de las dos ponemos un caso que trabaje esto. Así como está produce un error de memoria ya que siempre va a devolver la misma cadena por que no hay un caso de paro.
+    \item Problema 8
+\includegraphics[scale=0.2]{diagrama.png}
+    \item Problema 10
+Devuelve una lista mas corta por que no toma en cuenta repeticiones, ya que smallers y largeres toma en cuenta numeros estrictamente menores o mayores al pivote. Si queremos que tome en cuenta repeticiones debemos de modificar la forma en la que tomamos en cuenta el pivote, como usando una lambda que cuente todas las repeticiones del pivote en la lista.
+    \item Problema 17
+El error puede ocurrir en quicksort si es que smallers se usa por que no toma en cuenta que el pivote y se repite en la lista. Además, que se tendría que tener en cuenta como se implementaría el largers.
+    \item Problema 18
+En los casos en los que m sea mayor que 0 o m y n sean mayor que 0. Cuando se intenta usar el metodo de dividir el problme en subproblemas, los subproblemas son complejos e incluso más complejos que el caso original. Por ejemplo: en los casos que A(m,n) se evalua A(m-1, A(m, n-1)) y ahora tenemos que evaluar A(m, n-1) que resulta en otra llamada A(m-1, A(m,n-1)) hasta que lleguemos a un caso base como: A(m,0) y tengamos que hacer A(m-1, 1) y que continue el proceso.
+    \item Problema 19
+
+La función find-largest-divisor es una función recursiva estructural usada para encontrar el común divisor mas largo entre dos números n y m.  \\
+Caso base: Si k es igual entonces la función devuelve 1. \\
+Si el cociente de ambos números es 0, entonces k es un común divisor. Si esto es verdad devuelve k. \\
+Si las condiciones no se cumple hace una llamada recursiva con k menos 1. \\
+La llamada en la función gcd-structural  con el mínimo de n y m como el valor inicial de k, ya que el común divisor no puede ser mayor que el menor de ambos números. \\
+
+    \item Problema 20
+    La función find-largest-divisor es una función recursiva generativa usada para encontrar el común divisor mas largo entre dos números n y m. \\
+    Caso de aceptación: Si min es igual a 0 devuelve max que significa que el máximo común divisor se encontró. \\
+    Si el caso base no se cumple se hace una llamada recursiva con el mínimo y el residuo de max y min. \\
+    La llamada en la función gcd-generative con el máximo de n y m, y el mínimo de n y m para asegurarse que el mínimo y el máximo sean usados. \\
+
+    \item Problema 21
+    
+    Pequeños \\
+    Agarre estos datos porque son números que son pequeños para ambas funciones.\\
+    (time (gcd-structural 100 99)) \\
+    cpu time: 0 real time: 0 gc time: 0 \\
+    (time (gcd-generative 100 99)) \\
+    cpu time: 0 real time: 0 gc time: 0 \\
+    
+    Medianos \\
+    Agarre estos datos porque aumenta el tiempo estructural y el generativo queda igual.\\
+    (time (gcd-structural 104729 104728)) \\
+    cpu time: 9 real time: 9 gc time: 0 \\
+    (time (gcd-generative 104729 104728)) \\
+    cpu time: 0 real time: 0 gc time: 0 \\
+    
+    Grandes \\
+    Agarre estos datos porque con estos números aumenta mucho el nivel del tiempo estructural.\\
+    (time (gcd-structural 10523145 10523144)) \\
+    cpu time: 1571 real time: 1221 gc time: 89 \\
+    (time (gcd-generative 10523145 10523144)) \\
+    cpu time: 0 real time: 0 gc time: 0 \\
+
+    En las pruebas el nivel generativo se mantuvo en cero mientras que el estructural se mueve.
+    \item Problema 22
+    Si estas trabajando con entradas pequeñas y prefieres tener un código fácil de leer puede llegar a convenir usar el que es menos eficiente. \\
+
+\end{itemize}
+\end{document}
