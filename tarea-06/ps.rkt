@@ -1,4 +1,6 @@
 #lang racket
+(require pict)
+(require racket/draw)
 
 ;Problema 1
 ;;; unit-string? : string? -> bool
@@ -22,7 +24,7 @@
   (unless (string? s)
     (error 'explode "esperaba una cadena, pero recibi: ~e" s))
   (map string (string->list s)))
-
+(explode "hola")
 ;;; implode : list? -> string
 ;;; Convierte una lista de cadenas unitarias en una cadena
 (define (implode ls)
@@ -54,6 +56,7 @@
     [else
      (cons (implode (take s n))
            (bundle (drop s n) n))]))
+(bundle '("a" "b" "c" "d") 1000)
 
 ;;; list->chunks : list? int? list
 ;;; Divide una lista en listas de n tamanio
@@ -180,5 +183,94 @@
              (quicksort-local (filter (lambda (x) (> x pivot)) ls)))]))
 
 ;Problema 16
+
+(define (bundle-check s n)
+  (cond
+    [(null? s) null]
+    [(equal? n 0) (error 'bundle-check "Error")]
+    [else
+     (cons (implode (take s n))
+           (bundle-check (drop s n) n))]))
+;(bundle-check '("a" "b" "c" "d") 0)
+;Problema 17
+;;; El error seria que el menos igual no toma en cuenta la repeticion del pivote en la lista
+(define (smallers-error l n)
+  (cond
+    [(empty?) l '()]
+    [else (if (<= (first l) n)
+              (cons (first l) (smallers-error (rest l) n))
+              (smallers-error (rest l) n))]))
+;Problema 18
+;;; En los casos en los que m sea mayor que 0 o m y n sean mayor que 0
+
+;Problema 19
+;;; La funcion find-largest-divisor es una funcion recursiva estructural usada para encontrar el comun divisor mas largo entre dos numeros n y m.
+;;; Caso base: Si k es igual entonces la funcion devuelve 1.
+;;; Si el cociente de ambos numeros es 0, entonces k es un comun divisor. Si esto es verdad devuleve k
+;;; Si las condiciones no se cumple hace una llamada recursiva con k menos 1.
+;;; La llamada en la funcion gcd-structural  con el minimo de n y m como el valor inicial de k, ya que el comun divisor no puede ser mayor que el menor de ambos numeros
+(define (gcd-structural n m)
+  (define (find-largest-divisor k)
+    (cond [(= k 1) 1]
+          [(= (remainder n k) (remainder m k) 0) k]
+          [else (find-largest-divisor (- k 1))]))
+  (find-largest-divisor (min n m)))
+
+;;; Problema 20
+;;; La funcion find-largest-divisor es una funcion recursiva generativa usada para encontrar el comun divisor mas largo entre dos numeros n y m.
+;;; Caso base: Si min es igual a 0 devuelve max que significa que el maximo comun divisor se encontro.
+;;; Si el caso base no se cumple se hace una llamada recursiva con el minimo y el residuo de max hy min.
+;;; La llamada en la funcion gcd-generative con el maximo de n y m, y el minimo de n y m para asegurarse que el minimo y el maximo sean usados.
+(define (gcd-generative n m)
+  (define (find-largest-divisor max min)
+    (if (= min 0)
+        max
+        (find-largest-divisor min (remainder max min))))
+  (find-largest-divisor (max n m) (min n m)))
+
+;;; Problema 21
+
+;;; Pequeños
+;(time (gcd-structural 100 99))
+;(time (gcd-generative 100 99))
+
+;(time (gcd-structural 104729 104728))
+;(time (gcd-generative 104729 104728))
+;;;Grandes
+;(time (gcd-structural 10523145 10523144))
+;(time (gcd-generative 10523145 10523144))
+
+;;; Problema 22
+;;; Si estas trabajando con entradas pequeñas y prefieres tener un código fácil de leer puede llegar a convenir usar el que es menos eficiente.
+
+;;; Problema 23
+;;;
+
+(define (triangle side width color)
+  (define w side)
+  (define h (* side (sin (/ pi 3))))
+  (define (draw-it ctx dx dy)
+    (define prev-pen (send ctx get-pen))
+    (define path (new dc-path%))
+    (send ctx set-pen (new pen% [width width] [color color]))
+    (send path move-to 0 h)
+    (send path line-to w h)
+    (send path line-to (/ w 2) 0)
+    (send path close)
+    (send ctx draw-path path dx dy)
+    (send ctx set-pen prev-pen))
+  (dc draw-it w h))
+
+
+
+(define (sierpinski side)
+  (cond [(<= side 4) (triangle side 1 "red")]
+        [else
+         (define div (sierpinski (/ side 2)))
+         (vc-append div (hc-append div div))]))
+
+
+(sierpinski 10000)
+
 (provide bundle
          explode)
