@@ -1,0 +1,211 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{float}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+
+\title{Tarea 07 de Lenguajes de Programación}
+\author{
+  Ramírez Ríos, Víctor Hugo\\
+  \texttt{a221205528@unison.mx}
+}
+\date{Noviembre 2023}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+    \item Extiende el lenguaje agregando un nuevo operador minus que toma un argumento $n$ y regresa $-n$. Por ejemplo, el valor de minus(-(minus(5),9)) debe ser 14.
+    \begin{itemize}
+        \item Léxico \\
+        minus
+        \item Sintaxis 
+        \begin{itemize}
+            \item Concreta \\
+            $Expression$$\to$minus($Expression$)
+            \item Abstracta \\
+            (minus-exp $exp1$)
+        \end{itemize}
+        \item Semántica \\
+        (value-of(minus-exp $exp1$)$\rho$) = (num-val (- (expval$\to$num (value-of $exp1$ $\rho$))
+    \end{itemize}
+    \item Extiende el lenguaje agregando operadores para la suma, multiplicación y cociente de enteros.
+    \begin{itemize}
+        \item Léxico \\
+        + \\
+        * \\
+        / 
+        \item Sintaxis 
+        \begin{itemize}
+            \item Concreta \\
+            $Expression$$\to$+($Expression$, $Expression$) \\
+            $Expression$$\to$*($Expression$, $Expression$) \\
+            $Expression$$\to$/($Expression$, $Expression$) 
+            \item Abstracta \\
+            (sum-exp $exp1$ $exp2$) \\
+            (mult-exp $exp1$ $exp2$) \\
+            (div-exp $exp1$ $exp2$)
+        \end{itemize}
+        \item Semántica 
+        \begin{align*}
+            (\text{value-of}(\text{sum-exp}& exp1 exp2) \rho ) \\
+            =(\text{num-val} (+ &(\text{expval} \to \text{num} (\text{value-of} exp1 \rho))\\
+            &(\text{expval} \to \text{num} ( \text{value-of} exp1 \rho))))
+        \end{align*}
+        
+        \begin{align*}
+            (\text{value-of}(\text{mult-exp}& exp1 exp2) \rho ) \\
+            =(\text{num-val} (* &(\text{expval} \to \text{num} (\text{value-of} exp1 \rho))\\
+            &(\text{expval} \to \text{num} ( \text{value-of} exp1 \rho))))
+        \end{align*}
+        
+        \begin{align*}
+            (\text{value-of}(\text{div-exp}& exp1 exp2) \rho ) \\
+            =(\text{num-val} (\text{floor}(/ &(\text{expval} \to \text{num} (\text{value-of} exp1 \rho))\\
+            &(\text{expval} \to \text{num} ( \text{value-of} exp1 \rho)))))
+        \end{align*}
+    \end{itemize}
+    \item Agrega un predicado de igualdad numérica equal? y predicados de orden greater? y less? al conjunto de operaciones del lenguaje LET.
+
+    \begin{itemize}
+        \item Léxico \\
+        equal? \\
+        greater? \\
+        less? 
+        \item Sintaxis 
+        \begin{itemize}
+            \item Concreta \\
+            $Expression$$\to$equal?($Expression$, $Expression$) \\
+            $Expression$$\to$greater?($Expression$, $Expression$) \\
+            $Expression$$\to$less?($Expression$, $Expression$) 
+            \item Abstracta \\
+            (equal?-exp $exp1$ $exp2$) \\
+            (greater?-exp $exp1$ $exp2$) \\
+            (less?-exp $exp1$ $exp2$)
+        \end{itemize}
+        \item Semántica 
+        \begin{align*}
+            (\text{value-of}(\text{equal?-exp}& exp1 exp2) \rho ) \\
+            =(\text{num-val} (equal? &(\text{expval} \to \text{num} (\text{value-of} exp1 \rho))\\
+            &(\text{expval} \to \text{num} ( \text{value-of} exp1 \rho))))
+        \end{align*}
+        
+        \begin{align*}
+            (\text{value-of}(\text{greater?-exp}& exp1 exp2) \rho ) \\
+            =(\text{num-val} (>  (&\text{expval} \to \text{num} (\text{value-of} exp1 \rho))\\
+            &(\text{expval} \to \text{num} ( \text{value-of} exp1 \rho))))
+        \end{align*}
+        
+        \begin{align*}
+            (\text{value-of}(\text{less?-exp}& exp1 exp2) \rho ) \\
+            =(\text{num-val} (< (&\text{expval} \to \text{num} (\text{value-of} exp1 \rho))\\
+            &(\text{expval} \to \text{num} ( \text{value-of} exp1 \rho))))
+        \end{align*}
+    \end{itemize}
+    \item Agrega operaciones de procesamiento de listas al lenguaje, incluyendo cons, car, cdr, null? y emptylist.
+    
+    \begin{itemize}
+        \item Léxico \\
+        cons \\
+        car \\
+        cdr \\ 
+        null? \\ 
+        emptylist  
+        \item Sintaxis 
+        \begin{itemize}
+            \item Concreta \\
+            $Expression$$\to$cons($Expression$, $Expression$) \\
+            $Expression$$\to$car($Expression$) \\
+            $Expression$$\to$cdr($Expression$) \\
+            $Expression$$\to$null?($Expression$) \\
+            $Expression$$\to$emptylist() 
+            \item Abstracta \\
+            (cons-exp $exp1$ $exp2$) \\
+            (car-exp $exp1$) \\
+            (cdr-exp $exp1$) \\
+            (null?-exp $exp1$) \\
+            (emptylist-exp $exp1$)
+        \end{itemize}
+        \item Semántica 
+        \begin{align*}
+            (\text{value-of}(\text{cons-exp}& exp1 exp2) \rho ) \\
+            =(\textbf{let} (&[val1 (\text{value-of} exp1 \rho)] \\
+                         &[val2 (\text{value-of} exp2 \rho)]) \\
+                         & (\text{pair-val} (\text{cons} val1 val2)))
+        \end{align*}
+        
+        \begin{align*}
+            (\text{value-of}(\text{car-exp}& exp1) \rho ) \\
+            =(\text{pair-val} (\text{car} (&\text{expval} \to \text{num} (\text{value-of} exp1 \rho))\\
+        \end{align*}
+        
+        \begin{align*}
+            (\text{value-of}(\text{cdr-exp}& exp1) \rho ) \\
+            =(\text{pair-val} (\text{cdr} (&\text{expval} \to \text{num} (\text{value-of} exp1 \rho))\\
+        \end{align*}
+
+        \begin{align*}
+            (\text{value-of}(\text{null?-exp} \; & exp1) \; \rho ) \\
+            =(\textbf{let} (&[val1 (\text{value-of} \; exp1 \; \rho)]) \\
+                         & (\text{bool-val} (= \text{null-val} \; val1)))
+        \end{align*}
+
+        \begin{align*}
+            (\text{value-of}(\text{emptylist}& exp1) \rho ) \\
+            =(\text{null-val})\\
+        \end{align*}
+    \end{itemize}
+    \item Agrega una operacion list al lenguaje. Esta operacion debe tomar cualquier cantidad de argumentos y regresar un valor expresado de la lista de sus valores.
+    
+    \begin{itemize}
+        \item Léxico \\
+        list
+        \item Sintaxis 
+        \begin{itemize}
+            \item Concreta \\
+            $Expression$ $\to$ list($Expressions$)  \\
+            $Expressions$ $\to$ $\epsilon$ \\
+            $Expressions$ $\to$ $ExpressionsAux$ \\
+            $ExpressionsAux$ $\to$ $Expression$ \\
+            $ExpressionsAux$ $\to$ $Expression, ExpressionsAux$
+            \item Abstracta \\
+            (list-exp $exps$) 
+        \end{itemize}
+        \item Semántica 
+        \begin{align*}
+            (\text{value-of}(\text{list-exp} \; & exps) \rho ) \\
+            =(\textbf{let} (&[val1 (\text{value-of} \; exps \; \rho)]) \\
+                          (\text{if} &(\text{expval} \to \text{bool} (= \text{null-val} \; val1)) \\
+                         &(\text{null-val)}) \\
+                         &(\text{haz una lista con el cons, car y cdr}))) \\
+        \end{align*}
+    \end{itemize}
+    \item Incorpora al lenguaje expresiones cond. Usa la gramatica
+    \[ Expression \to \textbf{cond}\{ Expression => Expression\}* \textbf{end}\]
+
+    \begin{itemize}
+        \item Léxico \\
+        cond \\
+        end \\
+        =$>$
+        \item Sintaxis 
+        \begin{itemize}
+            \item Concreta \\
+                    \[ Expression \to \textbf{cond}\{ Expression => Expression\}* \textbf{end}\]
+            \item Abstracta \\
+            (cond-exp $exps$) 
+        \end{itemize}
+        \item Semántica 
+        \begin{align*}
+            
+        \end{align*}
+    \end{itemize}
+\end{enumerate}
+\end{document}
