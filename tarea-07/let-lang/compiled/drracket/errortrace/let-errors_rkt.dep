@@ -1,0 +1,1 @@
+("8.10" ta6le ("0f08df69279509611a53aa11fcd2f64f41036164" . "6d5787e861e0f04aa1f9dac40870f5b78a0eb5f3") #"/home/victor/main/tarea-07/let-lang/let-locs.rkt" (collects #"drracket" #"private" #"drracket-errortrace-key.rkt") (collects #"racket" #"base.rkt") (collects #"racket" #"contract.rkt") (collects #"racket" #"runtime-config.rkt") (collects #"syntax" #"readerr.rkt"))
