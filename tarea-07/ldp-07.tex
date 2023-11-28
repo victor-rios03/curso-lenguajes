@@ -203,9 +203,97 @@
             (cond-exp $exps$) 
         \end{itemize}
         \item Semántica 
+    \end{itemize}
+    \item Cambia los valores del lenguaje para que los enteros sean los unicos valores expresados. Modifica if para que el valor de 0 sea tratado como falso y todos los otros valores sean tratados como verdaderos. Modifica los predicados de manera consistente.
+
         \begin{align*}
-            
+        \varepsilon(\textbf{zero?}(exp1),\rho)= \begin{cases}
+       1 &\quad\text{si} \; \varepsilon(exp1, \rho) = 0\\
+       0 &\quad\text{si} \; \varepsilon(exp1, \rho) \neq 0\\ 
+     \end{cases}
+        \end{align*}
+
+        \begin{align*}
+        \varepsilon(\textbf{if}(exp1)\textbf{then}(exp2)\textbf{else}(exp3),\rho)= \begin{cases}
+       \varepsilon(exp2, \rho) &\quad\text{si} \; \varepsilon(exp1, \rho) = 1\\
+       \varepsilon(exp3, \rho) &\quad\text{si} \; \varepsilon(exp1, \rho) = 0 \\
+     \end{cases}
+        \end{align*}
+    
+    
+    \item Como una alternativa al ejercicio anterior, agrega una nueva categoria sintactica Bool-exp de expresiones booleanas al lenguaje. Cambia la producción para expresiones condicionales para que sea
+    \[ Expression \to \textbf{if} \; \text{Bool-exp} \; \textbf{then} expression \textbf{else} Expression \]
+
+    Escribe producciones apropiadas para Bool-exp y especifica su semantica con value-of-bool-exp. En donde terminan estando los predicados del ejercicio 3 con este cambio?
+
+    \begin{itemize}
+        \item Léxico \\
+        \item Sintaxis 
+        \begin{itemize}
+            \item Concreta \\
+        \[ Expression \to \textbf{if} \; \text{Bool-exp} \; \textbf{then} expression \textbf{else} Expression \]
+        \[\text{Bool-exp} = 1\]
+        \[\text{Bool-exp} = 0\]
+        \[\text{Bool-exp} = zero?(Expression)\]
+        \[\text{Bool-exp} = equal?(Expression, Expression)\]
+        \[\text{Bool-exp} = greater?(Expression, Expression)\]
+        \[\text{Bool-exp} = 0\]
+            \item Abstracta \\
+            (if boolexp exp1 exp2) \\
+            (bool-exp $bool$)  \\
+            (zero?-boolexp $exp1$)  \\
+            (equal?-boolexp $exp1$ $exp2$)  \\
+            (greater?-boolexp $exp1$ $exp2$) \\
+            (less?-boolexp $exp1$ $exp2$) \\
+        \end{itemize}
+        \item Semántica 
+        
+        \begin{align*}
+            (\text{value-of}(\text{bool-exp}& \; bool) \rho ) = (\text{bool-val} \; bool) \\
+        \end{align*}
+
+
+        \begin{align*}
+        \varepsilon(\textbf{if}(boolexp)\textbf{then}(exp1)\textbf{else}(exp2),\rho)= \begin{cases}
+       \varepsilon(exp1, \rho) &\quad\text{si} \; \varepsilon(boolexp, \rho) = T\\
+       \varepsilon(exp2, \rho) &\quad\text{si} \; \varepsilon(boolexp, \rho) = F \\
+     \end{cases}
         \end{align*}
     \end{itemize}
+
+    \item Modifica la implementacion del interprete agregando una nueva operacion print que toma un argumento, lo imprime y regresa el entero 1. Por que esta expresion no es expresable en nuestro metodo de especificacion formal?
+
+    Por que no tenemos una forma de representar la operacion de impresión usando la especificación formal.
+
+    \item Extiende el lenguaje para que las expresiones let puedan vincular una cantidad arbitraria de variables, usando la producción, 
+    \[Expression \to \textbf{let} \{Identifier = Expression\}* \textbf{in} \; Expression\]
+
+    \begin{itemize}
+        \item Sintactica
+        \begin{itemize}
+            \item Concreta
+            
+    \[Expression \to \textbf{let} \{Identifier = Expression\}* \textbf{in} \; Expression\]
+            \item Abstracta \\
+            (let-exp (var exp)* body)
+        \end{itemize}
+        \item Semantica
+        \begin{align*}
+            \frac{\varepsilon(exp1, \rho) = val1 \: \: \: \varepsilon(exp2, \rho) = val2 \dots}{\varepsilon(\textbf{let} \; x1 = exp1 \: \: \: x2 = exp2 \dots \textbf{in} \; body, \rho) = \varepsilon (body, [x1 : val1, x2 : val2 \dots] \rho)}
+        \end{align*}
+    \end{itemize}
+
+    
+    
+    \item Extiende el lenguaje con una expresión let* que funciona como en Racket.
+
+    
+
+    \item Agrega una expresión al lenguaje de acuerdo a la siguiente regla, 
+    \[Expression \to \textbf{unpack} \{Identifier\}*  = Expression \textbf{in} Expression\]
+
+    \item Consideremos funciones de compilación compile-program y compile que toman de argumento un árbol de sintaxis y regresan un árbol de sintaxis. Implementa estas funciones para que el lenguaje compile el cond del ejercicio 7, la extensión a let del ejercicio 11, y el let* del ejercicio 12, utilizando el lenguaje LET base y las extensiones del lenguaje 4,5 y 13.
+
+    
 \end{enumerate}
 \end{document}
